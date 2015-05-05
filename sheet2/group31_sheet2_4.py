@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 __author__ = "Jan Hendrik Kirchner, Max Bernhard Ilsen, Sandra Kohl"
-__email__ = "jkirchner@uos.de, milsen@uos.de, sakohl@uos.de"
 
 # imports
 import numpy as np
