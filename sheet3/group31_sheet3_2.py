@@ -36,21 +36,18 @@ def aggl_clustering(data, single_not_complete):
         for i in range(len(clusters)):
             for j in range(i+1,len(clusters)):
 
+                point_dist = np.zeros(clusters[i].shape[0]*clusters[j].shape[0])
                 # get cluster distance for clusters[i] and clusters[j]:
                 # minimum or maximum distance between points depending on single
                 # or complete linkage clustering
-                for pointi in clusters[i]:
-                    for pointj in clusters[j]:
+                for ii,pointi in enumerate(clusters[i]):
+                    for jj,pointj in enumerate(clusters[j]):
                         # get euclidean distance of points
-                        point_dist = cdist(
+                        point_dist[(ii*clusters[j].shape[0])+jj] = cdist(
                                 np.array([pointi]),np.array([pointj]),'euclidean')[0][0]
 
-                        # for single linkage clustering take minimum value, else
-                        # maximum value
-                        if single_not_complete and point_dist < dist:
-                            dist = point_dist
-                        elif not(single_not_complete) and point_dist > dist:
-                            dist = point_dist
+                # for single linkage clustering take minimum, else maximum
+                dist = min(point_dist) if single_not_complete else max(point_dist)
 
                 # use cluster distance if it is smaller than the distance we had before
                 # update best indices for clusters with smallest distance
