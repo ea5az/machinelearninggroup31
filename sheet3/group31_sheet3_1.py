@@ -12,7 +12,6 @@ data = np.array(loadmat(file_name="data", matlab_compatible=True)['x'].flat)
 
 # shuffle the data and split it into three partitions
 # (we could just reshape it if we hadn't to divide 200 by 3)
-# TODO: not sure whether the size of the partitions should also be random
 np.random.shuffle(data)
 partitions = [data[:67],data[67:134],data[134:]]
 
@@ -24,7 +23,7 @@ alphas = np.array([x.shape[0]/float(data.shape[0]) for x in partitions])
 # gaussians do not need to be initialized so this is commented out
 # gaussians = [norm.pdf(x=partitions[j],loc=mus[j],scale=sigmas[j]) for j in range(3)]
 
-# TODO epsilon?
+# some arbitrarily chosen epsilon
 epsilon = 0.01
 
 # initialize p-matrix and new values for mu, sigma, alpha
@@ -49,6 +48,7 @@ while True:
     p = np.array([p[i]/np.sum(p[i]) for i in range(200)])
 
     # use given loop to plot the gaussians
+    # TODO show plot after each step
     for j in range(3):
         plt.plot(ix,norm.pdf(ix,mus[j],sigmas[j])+1,colors[j])
 
@@ -71,6 +71,6 @@ while True:
         alphas = new_alphas
 
 # show plot
-# plt.plot(ix,data,'mo')
+plt.plot(ix,data,'mo')
 plt.show()
 
