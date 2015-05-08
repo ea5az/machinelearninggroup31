@@ -9,6 +9,7 @@ from scipy.spatial.distance import cdist
 
 # load matlab array
 data = np.array(loadmat(file_name="points", matlab_compatible=True)['pts'])
+# data = np.array([[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]])
 
 # function for agglomerative clustering
 def aggl_clustering(data, single_not_complete):
@@ -19,54 +20,74 @@ def aggl_clustering(data, single_not_complete):
     # initialize clusters by putting each data point in another array that
     # represents a cluster, so we get a 200x1x2-array
     # 200 clusters, each with 1 point consisting of 2 coordinates
-    clusters = data[:,np.newaxis]
-    print clusters
-    print clusters.shape
+    clusters = [np.array([x]) for x in data]
 
     # if more than five clusters exist do loop
-    while clusters.shape[0] > 5:
+    while len(clusters) > 5:
 
         # initialize cluster-indices for clusters with smallest distance
-        # as well as first smallest opt_dist
-        [opt_i,opt_j] = [0,0]
-        opt_dist = cdist(clusters[0],clusters[1],'euclidean')
+        # as well as the first distance between clusters (dist)
+        # as well as first smallest  distance between clusters (opt_dist)
+        [opt_i,opt_j] = [0,1]
+        dist = cdist(clusters[0],clusters[1],'euclidean')[0][0]
+        opt_dist = cdist(clusters[0],clusters[1],'euclidean')[0][0]
 
         # double loop through all clusters so far
-        for i in range(clusters.shape[0]):
-            for j in range(i+1,clusters.shape[0]):
+        for i in range(len(clusters)):
+            for j in range(i+1,len(clusters)):
 
-                # get min or max euclidean distance of points
-                if single_not_complete:
-                    dist = min(cdist(clusters[i],clusters[j],'euclidean'))
-                else:
-                    dist = max(cdist(clusters[i],clusters[j],'euclidean'))
+                # get cluster distance for clusters[i] and clusters[j]:
+                # minimum or maximum distance between points depending on single
+                # or complete linkage clustering
+                for pointi in clusters[i]:
+                    for pointj in clusters[j]:
+                        # get euclidean distance of points
+                        point_dist = cdist(
+                                np.array([pointi]),np.array([pointj]),'euclidean')[0][0]
 
-                # use dist if it is smaller than the distance we had before
-                # and update best indices for clusters with smallest distance
+                        # for single linkage clustering take minimum value, else
+                        # maximum value
+                        if single_not_complete and point_dist < dist:
+                            dist = point_dist
+                        elif not(single_not_complete) and point_dist > dist:
+                            dist = point_dist
+
+                # use cluster distance if it is smaller than the distance we had before
+                # update best indices for clusters with smallest distance
                 if dist < opt_dist:
                     opt_dist = dist
                     opt_i = i
                     opt_j = j
 
-        print \
-        (np.array([np.append(clusters[opt_i],clusters[opt_j],axis=0)])).shape
-        print clusters.shape
-        clusters = np.append(clusters, \
-                np.array([np.append(clusters[opt_i],clusters[opt_j],axis=0)]), \
-                axis=0)
-        print clusters
-        break
-        clusters = np.delete(clusters,opt_i,axis=0)
-        clusters = np.delete(clusters,opt_j,axis=0)
+        # append combined cluster (created with smallest distance clusters) to
+        # original cluster array, delete old smallest distance clusters
+        clusters.append(np.append(clusters[opt_i],clusters[opt_j],axis=0))
+        del clusters[opt_i]
+        if opt_i < opt_j:
+            del clusters[opt_j-1]
+        else:
+            del clusters[opt_j]
+        print len(clusters) # get a cool cluster-countdown while waiting
 
     return clusters
 
+colors = ['ro','go','yo','mo','bo']
+plt.figure(figsize=(10,12))
 
-# actually perform the clustering
+# perform single linkage clustering and plotresult
 clusters = aggl_clustering(data,single_not_complete = True)
-plt.figure()
 plt.subplot(121)
-plt.plot(clusters)
+for i,cluster in enumerate(clusters):
+    for point in cluster:
+        plt.plot(point[0],point[1],colors[i])
+plt.title('Single Linkage Clustering')
 
+# perform complete linkage clustering and plotresult
 clusters = aggl_clustering(data,single_not_complete = False)
 plt.subplot(122)
+for i,cluster in enumerate(clusters):
+    for point in cluster:
+        plt.plot(point[0],point[1],colors[i])
+plt.title('Complete Linkage Clustering')
+
+plt.show()
