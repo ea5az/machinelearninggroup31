@@ -21,7 +21,7 @@ for i = 1:3
     alpha(i) = length(partition{i})/n;
 end
 
-eps = 0.05;
+eps = 0.005;
 N = 100;
 p = zeros(200 , 3);
 first_run = true;
@@ -63,8 +63,8 @@ while((mu_delta > eps && sigma_delta > eps) || first_run)
     sigma_delta = sum(abs(sigma-old_sigma));
     old_mu = mu; old_sigma = sigma;
 
-    display(mu_delta)
-    display(sigma_delta)
+    %display(mu_delta)
+    %display(sigma_delta)
 
     [~,assign] = max(p , [] , 2);
     
@@ -72,22 +72,22 @@ while((mu_delta > eps && sigma_delta > eps) || first_run)
     part2 = data(assign == 2);
     part3 = data(assign == 3);
     
-    subplot(6,3,n);
-
-    hold on;
-    dx1 = zeros(length(part1)) ;
-    dx2 = zeros(length(part2)) ;
-    dx3 = zeros(length(part3)) ;
-    
-    
-    plot(part1,dx1,'o','color','red');
-    plot(part2,dx2,'o','color','blue');
-    plot(part3,dx3,'o','color','green');
-    for j =1:3
-        ix = linspace (-4.5 ,4 ,200);
-        plot(ix,normpdf(ix,mu(j),sigma(j))+1)
-    end
-    hold off;
+%     subplot(6,3,n);
+% 
+%     hold on;
+%     dx1 = zeros(length(part1)) ;
+%     dx2 = zeros(length(part2)) ;
+%     dx3 = zeros(length(part3)) ;
+%     
+%     
+%     plot(part1,dx1,'o','color','red');
+%     plot(part2,dx2,'o','color','blue');
+%     plot(part3,dx3,'o','color','green');
+%     for j =1:3
+%         ix = linspace (-4.5 ,4 ,200);
+%         plot(ix,normpdf(ix,mu(j),sigma(j))+1)
+%     end
+%     hold off;
     n = n+1
     first_run = false;
 end
