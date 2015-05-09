@@ -3,6 +3,9 @@ load('points.mat');
 
 C = cell([200,1]);
 n = length(pts);
+
+single_link = false; %false for complete linkage
+
 for i = 1:n
     C{i} = i;
 end
@@ -20,8 +23,13 @@ for i= n:-1:6
     mergeInto = min(xentr,yentr);
     mergeFrom = max(xentr,yentr);
     
-    distances(mergeInto,:) = min([distances(xentr,:);distances(yentr,:)]);
-    distances(:,mergeInto) = min([distances(xentr,:);distances(yentr,:)]);
+    if single_link
+        distances(mergeInto,:) = min([distances(xentr,:);distances(yentr,:)]);
+        distances(:,mergeInto) = min([distances(xentr,:);distances(yentr,:)]);
+    else
+        distances(mergeInto,:) = max([distances(xentr,:);distances(yentr,:)]);
+        distances(:,mergeInto) = max([distances(xentr,:);distances(yentr,:)]);
+    end
     distances(mergeInto,mergeInto) = Inf;
     distances(xentr,yentr) = Inf;
     distances(yentr,xentr) = Inf;       
@@ -30,7 +38,7 @@ for i= n:-1:6
 end
 
 
-%%
+
 figure();
 hold on;
 for i = 1:n
