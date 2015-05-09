@@ -9,7 +9,6 @@ from scipy.spatial.distance import cdist
 
 # load matlab array
 data = np.array(loadmat(file_name="points", matlab_compatible=True)['pts'])
-# data = np.array([[1,1],[2,2],[3,3],[4,4],[5,5],[6,6]])
 
 # function for agglomerative clustering
 def aggl_clustering(data, single_not_complete):
@@ -18,7 +17,7 @@ def aggl_clustering(data, single_not_complete):
         return data
 
     # initialize clusters by putting each data point in another array that
-    # represents a cluster, so we get a 200x1x2-array
+    # represents a cluster, so we get a 200x1x2-list of arrays
     # 200 clusters, each with 1 point consisting of 2 coordinates
     clusters = [np.array([x]) for x in data]
 
@@ -37,9 +36,9 @@ def aggl_clustering(data, single_not_complete):
             for j in range(i+1,len(clusters)):
 
                 point_dist = np.zeros(clusters[i].shape[0]*clusters[j].shape[0])
-                # get cluster distance for clusters[i] and clusters[j]:
-                # minimum or maximum distance between points depending on single
-                # or complete linkage clustering
+
+                # get distance matrix with distances between each combination of
+                # points in clusters
                 for ii,pointi in enumerate(clusters[i]):
                     for jj,pointj in enumerate(clusters[j]):
                         # get euclidean distance of points
@@ -47,7 +46,7 @@ def aggl_clustering(data, single_not_complete):
                                 np.array([pointi]),np.array([pointj]),'euclidean')[0][0]
 
                 # for single linkage clustering take minimum, else maximum
-                dist = min(point_dist) if single_not_complete else max(point_dist)
+                dist = np.min(point_dist) if single_not_complete else np.max(point_dist)
 
                 # use cluster distance if it is smaller than the distance we had before
                 # update best indices for clusters with smallest distance
