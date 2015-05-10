@@ -12,7 +12,12 @@ end
 %calculate complete distance matrix once
 distances = pdist2(pts,pts);
 distances(distances==0)=Inf;
-for i= n:-1:6
+min_distance = 0;
+
+stop_distance = 0.8;
+
+
+while min_distance < stop_distance
     %get smallest distance
     [~,ind] = min(distances(:));
     [xentr,yentr] = ind2sub([n,n],ind);
@@ -22,6 +27,7 @@ for i= n:-1:6
     %%% patching the matrix up for the next step
     mergeInto = min(xentr,yentr);
     mergeFrom = max(xentr,yentr);
+    
     
     if average_linkage
         for j = 1:200
@@ -52,11 +58,14 @@ for i= n:-1:6
             distances(:,mergeInto) = min([distances(xentr,:);distances(yentr,:)]);
         end
     end
+        
     distances(mergeInto,mergeInto) = Inf;
     distances(xentr,yentr) = Inf;
     distances(yentr,xentr) = Inf;       
     distances(mergeFrom,:) = Inf([200,1]);
     distances(:,mergeFrom) = Inf([200,1]);
+    
+    min_distance = min(distances(mergeInto,:));
 end
 
 
