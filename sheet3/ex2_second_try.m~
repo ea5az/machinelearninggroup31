@@ -33,8 +33,7 @@ for i= n:-1:6
                                   %cosmetics
     
     %single link takes the smaller number, complete linkage the bigger number
-    %because we only ever merge 2 clusters who already fulfill the
-    %respective property this property is not lost in this step.
+    %because we only ever merge 2 clusters who already fulfill the resp
     if single_link
         distances(mergeInto,:) = min([distances(xentr,:);distances(yentr,:)]);
         distances(:,mergeInto) = min([distances(xentr,:);distances(yentr,:)]);
@@ -42,8 +41,6 @@ for i= n:-1:6
         distances(mergeInto,:) = max([distances(xentr,:);distances(yentr,:)]);
         distances(:,mergeInto) = max([distances(xentr,:);distances(yentr,:)]);
     end
-    %by doing this the min funtion returns the correct value in the next
-    %iteration
     distances(mergeInto,mergeInto) = Inf;
     distances(xentr,yentr) = Inf;
     distances(yentr,xentr) = Inf;       
@@ -52,7 +49,7 @@ for i= n:-1:6
 end
 
 
-%plotting
+
 figure();
 hold on;
 for i = 1:n
@@ -60,4 +57,6 @@ for i = 1:n
         plot(pts(C{i},1),pts(C{i},2),'o')
     end
 end
+
+%high = max([distances(xentr,:);distances(yentr,:)])
 
