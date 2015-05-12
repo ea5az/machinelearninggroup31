@@ -21,9 +21,9 @@ def aggl_clustering(data, average_not_centroid):
     # 200 clusters, each with 1 point consisting of 2 coordinates
     clusters = [np.array([x]) for x in data]
 
-    # opt_dist = cdist(clusters[0],clusters[1],'euclidean')[0][0]
-    # TODO change while criterion
-    while len(clusters) > 5:
+    # while the smallest cluster distance is bigger than 0.003
+    opt_dist = 1
+    while opt_dist > 0.0025:
 
         # initialize cluster-indices for clusters with smallest distance
         # as well as the first distance between clusters (dist)
@@ -75,14 +75,13 @@ def aggl_clustering(data, average_not_centroid):
     return clusters
 
 plt.figure(figsize=(10,12))
-colors = ['ro','yo','mo','go','bo']
 
 # perform single linkage clustering and plotresult
 clusters = aggl_clustering(data,average_not_centroid = True)
 plt.subplot(121)
 for i,cluster in enumerate(clusters):
     for point in cluster:
-        plt.plot(point[0],point[1],colors[i])
+        plt.plot(point[0],point[1],'o')
 plt.title('Average Linkage Clustering')
 
 # perform complete linkage clustering and plotresult
@@ -90,7 +89,7 @@ clusters = aggl_clustering(data,average_not_centroid = False)
 plt.subplot(122)
 for i,cluster in enumerate(clusters):
     for point in cluster:
-        plt.plot(point[0],point[1],colors[i])
+        plt.plot(point[0],point[1],'o')
 plt.title('Centroid Clustering')
 
 plt.show()
