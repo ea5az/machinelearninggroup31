@@ -1,0 +1,16 @@
+
+sing8.png
+sing16.png
+sing64.png
+comp8.png
+comp16.png
+comp64.png
+avrg8.png
+avrg16.png
+avrg64.png
+centr8.png
+centr16.png
+centr64.png
+kmeans8.png
+kmeans16.png
+kmeans64.png
