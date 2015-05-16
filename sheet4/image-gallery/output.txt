@@ -14,3 +14,7 @@ centr64.png
 kmeans8.png
 kmeans16.png
 kmeans64.png
+
+parrot.jpg
+parrot_med.png
+parrot_big.png
