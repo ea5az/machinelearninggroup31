@@ -1,0 +1,38 @@
+
+% Rolf Niepraschk, Rolf.Niepraschk@ptb.de, 2007-09-02
+
+\documentclass[a4paper]{image-gallery}
+%\documentclass[a4paper,dummy]{image-gallery}
+
+\gallerySetup{left=20mm,right=20mm,top=20mm,bottom=20mm,
+  width=5cm,height=3.75cm,rows=6,columns=3,autorotate=false}
+
+\begin{document}
+
+% The resolution of all the pictures are reduced by 
+%   convert -resize 8% original.jpg new.jpg
+%
+% `mypics.txt' is created with the following call
+%   ls -1 *.jpg > mypics.txt
+%
+%  Caption text is the filename. Alternative Text can be given 
+%  after a comma as separator.
+%
+  \ttfamily\footnotesize
+  \makeGallery{output.txt}
+  \newpage
+  \normalsize\normalfont
+  \section{Exercise}
+  \begin{itemize}
+  	\item \textit{Compare and discuss the results obtained from the four different methods. Are there methods that give perceptively better or worse results? If so, what could be the reason?}
+	\item We have displayed our results for this exercise in the first 4 rows. Even though our algorithm also works for the higher resolutions, we chose the output for the smallest picture since that makes the comparison in exercise 2 easier. \\ Most of the methods worked quite well and even though differing degrees of quality loss are recognizable we couldn't pick a single best option from the first 4 rows. An obvious outlier is of course the \textit{single-linkage clustering} where almost nothing of the original picture remains. This is probably because of the \textit{inductive bias} of the \textit{single-linkage clustering} algorithm which prefers long chains over compact clusters. Long chains however are completely unsuited for the given problem since the color vectors are all relatively close to one another and thus we end up with one big cluster that contains almost all vectors. The other clustering algorithms whose \textit{inductive bias} prefers round compact clusters are obviously the better choice here. \\ In the 64-bit category \textit{centroid clustering} algorithm produces the best result but in exchange it produces the worst result in the 8 bit category. The \textit{complete linkage} algorithm is the best in the 8 bit category.
+  \end{itemize}
+    \section{Exercise}
+  \begin{itemize}
+  	\item \textit{Compare and discuss the results obtained from k-means with your results above. Is the
+result from k-means perceptively better or worse? If so, what could be the reason?}
+	\item At least in the 64 bit category the \textit{k-means algorithm} is perceptively better than the other algorithms, it is the only algorithm that actually displays some details from the background of the picture. In exchange the result for the 8 bit category is perceptively worse than the other algorithms. We suppose that this is due to \textit{empty clusters (idle nodes)} which occur quite frequently in the \textit{k-means algorithm}. Because of those the already quite small number of colors available is reduced even further and thus the quality of the image suffers.
+  \end{itemize}
+  
+\textit{We have just talked to some other groups who think that the exercise asks you to plot the clusters as as scatter3 plot. We didn't read the exercise that way and now it's (literally) too late to add it. We hope that is not too bad.}
+\end{document}
