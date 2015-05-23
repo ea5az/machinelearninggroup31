@@ -1,0 +1,56 @@
+load('oldfaithful.mat');
+x = x(: , [2,1]); % we like this way of thinking bout the data better
+n = length(y);
+dim = length(x(1,:));
+%% normalization
+x_mean = mean(x);
+x_norm = [(x(:,1)-x_mean(1)) (x(:,2)-x_mean(2))];
+%% plotting normalized
+close all;
+figure()
+subplot(1,2,1)
+scatter(x(:,1),x(:,2),[],y)
+
+subplot(1,2,2)
+scatter(x_norm(:,1),x_norm(:,2),[],y)
+
+% as expected the data looks exactly the same except for the fact that the
+% normalized data was moved in the coordinate system so that the center is
+% now at (0,0)
+
+%%
+
+C = cov(x);
+[EV,EW] = eig(C);
+[EW_sort, swapInd] = sort(sum(EW , 1) , 'descend');
+EV_sort = EV(: , swapInd);
+
+%%
+hold on;
+axis equal;
+scatter(x_norm(:,1),x_norm(:,2),[],y)
+for i = 1:dim
+    quiver(0,0,EV_sort(1,i),EV_sort(2,i))
+end
+%%
+principal = EV_sort(:,1);
+U = principal.';
+Z = U * x_norm.';
+% one-dimensional plot of scalars Z
+scatter(Z,zeros([1,length(Z)]),[],y)
+
+%% reconstruction
+projections = (principal * Z).';
+
+close all;
+hold on;
+axis equal;
+scatter(x_norm(:,1),x_norm(:,2),[],y+2)
+for i = 1:dim
+   quiver(0,0,EV_sort(1,i),EV_sort(2,i))
+end
+scatter(projections(:,1),projections(:,2),[],y)
+
+
+%%
+
