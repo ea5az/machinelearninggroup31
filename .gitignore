@@ -6,3 +6,6 @@ filelist.csv
 
 # back up-files
 *~
+
+# Eclipse-files
+workbench.xmi
