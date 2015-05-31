@@ -20,12 +20,20 @@ scatter(x_norm(:,1),x_norm(:,2),[],y)
 
 %%
 
+%Calculating the covariance matrix and sorting the Eigenvectors so that the
+% one corresponding to the biggest EW (highest variance) is in the leftmost
+% column
+
 C = cov(x);
 [EV,EW] = eig(C);
 [EW_sort, swapInd] = sort(sum(EW , 1) , 'descend');
 EV_sort = EV(: , swapInd);
 
 %%
+
+% plotting the Eigenvectors in the scatterplot
+% axis equal to see that they are orthogonal
+
 hold on;
 axis equal;
 scatter(x_norm(:,1),x_norm(:,2),[],y)
@@ -33,6 +41,10 @@ for i = 1:dim
     quiver(0,0,EV_sort(1,i),EV_sort(2,i))
 end
 %%
+
+% get first vector as principal component and then project all the data 
+% on the corresponding eigenspace
+
 principal = EV_sort(:,1);
 U = principal.';
 Z = U * x_norm.';
@@ -40,6 +52,12 @@ Z = U * x_norm.';
 scatter(Z,zeros([1,length(Z)]),[],y)
 
 %% reconstruction
+
+% Since the eigenvectors are normalized (length 1) by default we can
+% reconstruct the points in 2d space by simply multiplying the principal
+% vector with the corresponding scalars from the projection. For discussion
+% of plot see pdf.
+
 projections = (principal * Z).';
 
 close all;

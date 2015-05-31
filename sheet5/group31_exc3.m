@@ -12,12 +12,18 @@ dim = length(x(1,:));
 x_mean = mean(x);
 x_norm = [(x(:,1)-x_mean(1)) (x(:,2)-x_mean(2)) (x(:,3)-x_mean(3)) (x(:,4)-x_mean(4))];
 %%
+%Calculating the covariance matrix and sorting the Eigenvectors so that the
+% one corresponding to the biggest EW (highest variance) is in the leftmost
+% column
 C = cov(x);
 [EV,EW] = eig(C);
 [EW_sort, swapInd] = sort(sum(EW , 1) , 'descend');
 EV_sort = EV(: , swapInd);
 
 %% one or two dimension version
+% get first vector or first two vectors as principal component and 
+% then project all the data on the corresponding eigenspace
+
 figure()
 if num_eig_vec == 2
     principal = EV_sort(:,[1,2]);
