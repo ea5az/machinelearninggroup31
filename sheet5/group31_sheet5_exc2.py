@@ -48,7 +48,7 @@ evalues = evalues.T[::-1].T
 evectors = evectors.T[::-1].T
 
 # show eigenvectors
-plt.quiver(np.zeros(2),np.zeros(2),evectors.T[0],evectors.T[1],width=0.005,scale=10)
+plt.quiver(np.zeros(2),np.zeros(2),evectors[0],evectors[1],width=0.005,scale=10)
 
 # TODO is this meant by projections? or just showing the vector above?
 # for each eigenvector: add it to data and plot the result in comparison to old
