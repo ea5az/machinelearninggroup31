@@ -8,9 +8,8 @@ from scipy.io import loadmat
 from scipy.linalg import eigh
 
 # load matlab array
-# x = np.array(loadmat("dataLarge1", matlab_compatible=True)['x'])
-x = np.array(loadmat("dataLarge2", matlab_compatible=True)['x'])
-print x.shape
+x = np.array(loadmat("dataLarge1", matlab_compatible=True)['x'])
+# x = np.array(loadmat("dataLarge2", matlab_compatible=True)['x'])
 
 # plot data
 plt.figure(figsize=(10,5))
@@ -19,8 +18,8 @@ plt.title("Data with Weights")
 
 # choose learning rate and simulation steps
 EPSILON = 0.01 # learning rate
-STEPS = 600    # simulation steps
-PLOTSTEPS = 60 # plot after how many steps
+STEPS = 500    # simulation steps
+PLOTSTEPS = 50 # plot after how many steps
 
 # choose simple thresholding activation function
 # in the slides the threshold is called s0 (on the assignment sheet it is called
@@ -56,22 +55,16 @@ for step in range(STEPS+1):
         plt.title("Data with Weights, Step "+str(step))
         plt.show()
 
-# we can see that the vector converges each time to a vector that is orthogonal
+# We can see that the vector converges each time to a vector that is orthogonal
 # to the main axis of the data:
-# as expected our weight vector converges towards eigenvector of largest eigenvalue of C
+# As expected our weight vector converges towards the eigenvector of largest
+# eigenvalue of C.
 cor = np.corrcoef(x)
-# eigv = np.linalg.eigh(cor)
-# plt.plot(x.T[0],x.T[1],"ro")
-# plt.gca().quiver(eigv[0],eigv[1],angles='xy',scale_units='xy',scale=1)
-# plt.title("Eigenvector of correlation matrix")
-# plt.show()
 
 # Using Oja's rule, the resulting weights for dataLarge1 and dataLarge 2 always
 # converge to the same vector.
-
-# Using Hebb's rule, the weight vector for dataLarge1 goes into the same
-# direction as for Oja's rule but its size increases steadily. For dataLarge2 it
-# again increases in size without ever stopping.
+# Using Hebb's rule, the weight vector for dataLarge1 and dataLarge2 point
+# towards the same direction as for Oja's rule but their size increases steadily.
 # The increase in size can be easily explained as we always add something to the
-# weights when we use Hebb's rule. Oja's rule uses weight decay to prevent this.
-# TODO is the direction different
+# weights when we use Hebb's rule. Oja's rule uses weight decay to prevent the
+# steady weight increase.
