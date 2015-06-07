@@ -16,40 +16,35 @@ plt.figure(figsize=(10,5))
 plt.plot(x.T[0],x.T[1],"ro")
 plt.title("Data with Weights")
 
-# choose learning rate and simulation steps
-EPSILON = 0.01 # learning rate
-STEPS = 500    # simulation steps
-PLOTSTEPS = 50 # plot after how many steps
+# choose learning rate and simulation steps as well as threshold
+EPSILON = 0.01      # learning rate
+PLOTSTEPS = 100     # plot after how many steps
+THRESHOLD = 0.5     # threshold
 
-# choose simple thresholding activation function
-# in the slides the threshold is called s0 (on the assignment sheet it is called
-# theta which is confusing since the actual threshold function (!) is called
-# theta in the slides)
-THRESHOLD = 0.5    # this is the threshold
-
-# define sigmoid activation function using hyperbolic tangent
+# define sigmoid activation function using simple step function
 def sigma(s):
-    return np.tanh(s - THRESHOLD)
+    return 1 if s > THRESHOLD else 0
+    # return np.tanh(s - THRESHOLD) # trying out hyperbolic tangent
 
 # initialize as many random weights as there are data points
-w = np.random.rand(x.shape[0])
-plt.gca().quiver(w.T[0],w.T[1],angles='xy',scale_units='xy',scale=1)
+w = np.random.rand(x.shape[1])
+plt.gca().quiver(w[0],w[1],angles='xy',scale_units='xy',scale=1)
 plt.show()
 
-for step in range(STEPS+1):
+for step in range(x.shape[0]):
     # get output using activation function of activation = weights*data
-    y = sigma(np.dot(w,x)) # shape 2
+    y = sigma(np.dot(w,x[step]))
 
     # use Oja's rule for weight difference
-    delta_w = np.dot(EPSILON*y,(x - np.array([w*y[0],w*y[1]]).T).T)
+    delta_w = EPSILON*y*(x[step] - y*w)
 
     # use Hebb's rule
-    # delta_w = np.dot(EPSILON*y,x.T)
+    # delta_w = EPSILON*y*x[step]
 
-    w += delta_w
+    w += delta_w.T
 
     # plot the weights every 15 steps
-    if step%PLOTSTEPS == 0:
+    if step%PLOTSTEPS == 0 or step == 999:
         plt.plot(x.T[0],x.T[1],"ro")
         plt.gca().quiver(w.T[0],w.T[1],angles='xy',scale_units='xy',scale=1)
         plt.title("Data with Weights, Step "+str(step))
