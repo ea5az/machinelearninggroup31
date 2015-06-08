@@ -1,13 +1,13 @@
 clear all;
 close all;
 load('iris.mat');
-%%
+%% parameters
 % change this to project to either two or three dimensional eigenspace
 num_eig_vec = 3;
 
 n = length(y);
 dim = length(x(1,:));
-%%
+%% Calculate Cov-Matrix and EV's
 %Calculating the covariance matrix and sorting the Eigenvectors so that the
 % one corresponding to the biggest EW (highest variance) is in the leftmost
 % column
@@ -16,19 +16,22 @@ C = cov(x);
 [EW_sort, swapInd] = sort(sum(EW , 1) , 'descend');
 lambda = zeros(dim);
 for i = 1:dim
-    lambda(i,i) = (EW_sort(i)).^(-0.5); %CHANGE HERE
+    lambda(i,i) = (EW_sort(i)).^(-0.5); %we take the inverse squareroot of 
+                                        %the original values
+                                        %because that's the form we need it
+                                        %in for the whitening part
 end
 EV_sort = EV(: , swapInd);
 %% normalization
 x_mean = mean(x);
 x_norm = [(x(:,1)-x_mean(1)) (x(:,2)-x_mean(2)) (x(:,3)-x_mean(3)) (x(:,4)-x_mean(4))];
-%% this is new
+%% we apply whitening to the normalized data
 p_w = lambda * EV_sort.';
 
 x_white = (p_w * x_norm.').';
 
 
-%% one or two dimension version
+%% one or two dimension version with comparison between whitened and unwhitened data
 % get first vector or first two vectors as principal component and 
 % then project all the data on the corresponding eigenspace
 
