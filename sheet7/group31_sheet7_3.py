@@ -12,21 +12,21 @@ train_t = np.array(loadmat("train_or", matlab_compatible=True)['t'])
 test_x = np.array(loadmat("test_or", matlab_compatible=True)['x_test'])
 
 # use oldfaithful data instead if desired
-# train_x = np.array(loadmat("train_oldfaithful", matlab_compatible=True)['x'])
-# train_t = np.array(loadmat("train_oldfaithful", matlab_compatible=True)['t'])
-# test_x = np.array(loadmat("test_oldfaithful", matlab_compatible=True)['x_test'])
+train_x = np.array(loadmat("train_oldfaithful", matlab_compatible=True)['x'])
+train_t = np.array(loadmat("train_oldfaithful", matlab_compatible=True)['t'])
+test_x = np.array(loadmat("test_oldfaithful", matlab_compatible=True)['x_test'])
 
 # plot data
 plt.figure(figsize=(10,5))
 for i in range(train_x.shape[0]):
     plt.plot(train_x[i][0],train_x[i][1],"bo" if train_t[i] == 1 else "ro")
-plt.title("Noisy OR-data")
+plt.title("Data with Decision Boundary (Test Data as xs)")
 plt.xlim(-2,2)
 plt.ylim(-2,2)
 
 # choose learning rate as well as threshold
 EPSILON = 0.01     # learning rate
-THETA = 0.25        # threshold
+THETA = 0.25       # threshold
 
 # define output activation function as given in exercise
 def output(y_in):
@@ -58,11 +58,14 @@ while error.any() != 0:
         # update error (how far away ouput is from training result)
         error[i] = train_t[i]-y
 
-# plot decision boundary
+# plot decision boundary (defined by function f)
 x = np.linspace(-2,2,500)
-plt.plot(x,(-bias - (w[0]/w[1])*x),'m-')
+f = lambda x: -bias - (w[0]/w[1])*x
+plt.plot(x,f(x),'m-')
 
-# plot test data as green xs
+# plot test data as xs 
+# color determined whether y-value is greater or lower than f(x)
 for i in range(test_x.shape[0]):
-    plt.plot(test_x[i][0],test_x[i][1],'gx')
+    plt.plot(test_x[i][0],test_x[i][1],
+            'bx' if f(test_x[i][0]) < test_x[i][1] else 'rx')
 plt.show()
