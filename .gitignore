@@ -7,5 +7,21 @@ filelist.csv
 # back up-files
 *~
 
+#latex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+
+# latex build tool auxiliary files:
+*.fdb_latexmk
+*.synctex
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
 # Eclipse-files
 workbench.xmi
