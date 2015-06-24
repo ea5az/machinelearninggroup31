@@ -58,10 +58,42 @@ occurs most often among the k nearest neighbors as the target value for $x$.\\
         dimension, extrapolation, lesion tolerance and advantages of each
         network.\\
         \\
+        While both MLP and RBF network take the number of example features as
+        their input dimension, the output of a RBF network is one-dimensional
+        while that of a MLP may be multi-dimensional.
+
+        The RBF network is a local method, meaning that a single adaptation step
+        will only have an effect on weights in a certain subregion of the input
+        space. Hence, even if a neuron is not functional anymore, the RBF
+        network is barely affected. In contrast, a single adaptation step in a
+        MLP results in an update of \textit{all} weights and thus, a single
+        missing neuron might prevent the whole network from functioning
+        correctly.  In short, the RBF network is "tolerant against lesions" and
+        the MLP is not.
+
+        Additionally, the RBF network has the advantage that its parameters are
+        in general easier to choose, to handle and to interpret than the
+        parameters of the MLP: When it comes to architectural parameters in the
+        RFB network, one only has to decide on a number of basis functions. In
+        the MLP one must choose an appropriate number of layers and number of
+        hidden neurons, both of which can greatly affect the performance of the
+        network.\\
+        Moreover, the effects of a change in adaptation parameters of a RBF
+        network (clustering parameters, radii, stepsize) are easy to predict.
+        Changing the parameters in a MLP such as stepsize or momentum, on the
+        other side, may have unforeseen consequences.
+        % advantage of mlp...
     \item The training of RBF network concerns three parts. The first step is to
         find suitable centers or input weights, $\xi$. Explain in detail how to
         find these input weights.\\
         \\
+        A simple way of finding input weights is using the training examples
+        themselves: $\xi_i = x_i$.  Another possibility is to perform clustering
+        on the given examples $x_i$ and take, e.g., the resulting centroids as
+        input weights.  Alternatively, one can perform Expectation Maximization
+        on all parameters (input weights $\xi_i$, radii $\sigma_i$ and output
+        weights $w_i$) at the same time.
+        % not enough detail?
     \item  Write down another basis function which has the property $\Phi(r)
         \then 0$ as $|r| \then \infty$ and one example a of basis function
         which has property: $\Phi(r) \then \infty$ as $|r| \then
@@ -82,5 +114,8 @@ occurs most often among the k nearest neighbors as the target value for $x$.\\
         \\
     \item  Briefly discuss at least three applications of SOM in different aspects.\\
         \\
+        Dimension reduction using principal curves.
+        Clustering.
+        Visualization.
 \end{enumerate}
 \end{document}
