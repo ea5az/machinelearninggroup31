@@ -119,17 +119,23 @@ occurs most often among the k nearest neighbors as the target value for $x$.\\
 \begin{enumerate}
     \item Explain\\
         \begin{enumerate}
-            \item the meaning of topology preservation:
+            \item the meaning of topology preservation: \\
+             A topology is a very general concept of a space which can be understood as a set of points with a respective neighborhood relation. In it it's expressed which points are close to one another. If we are mapping data from a high dimensional space into a lower dimensional space we would like a mapping that preserves the structure of the original data. A candidate for such a mapping might be one that preserves the topological relations (as much as possible). This is called topology preservation.
             \item the properties of the topology function:
             \item measuring similarity in SOM:
         \end{enumerate}
     \item How to avoid that the later training phases forcefully pull the entire
         map towards a new pattern?\\
         \\
+        The fourth step of the adaptation procedure reduces the step size on every iteration. Therefore in a late phase of the training, new patterns won't influence the map as much as they would in early phases. Eventually their influence completely stops. \\
+        $\varepsilon(t+1) = \varepsilon(t) (1 - \varepsilon^*)$, \\
+	$\sigma(t+1) = \sigma(t) (1 - \sigma^*)$
     \item  Briefly discuss at least three applications of SOM in different aspects.\\
         \\
-        Dimension reduction using principal curves.
-        Clustering.
-        Visualization.
+        Dimension reduction using principal curves. \\
+        Clustering. \\
+        Different regions of the map respond to particular kinds of input.\\
+        Visualization. \\
+        SOM's can be used to visualize high-dimensional data on a 2d grid of a representative shape. For stupid peoples that cannot imagine 10 dimensions (for real, get your dimension imagination skills right!)
 \end{enumerate}
 \end{document}
