@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{mathtools}
+
+\newcommand\then{\rightarrow}
+\newcommand\liff{\leftrightarrow}
+\newcommand\lxor{\oplus}
+\author{Sandra Kohl, Jan Hendrik Kirchner, Max Bernhard Ilsen}
+
+\begin{document}
+\section{Exercise \textit{(Probabilities (2p))}}
+\begin{enumerate}
+    \item
+        \begin{align*}
+        P(red|b_1) &= \frac{h(red,b_1)}{h(b1)} &= \frac{5}{5+3+2} &= \frac{5}{10} &= \frac{1}{2}\\
+            P(green|b_1) &= \frac{h(green,b_1)}{h(b1)} &= \frac{3}{5+3+2} &&= \frac{3}{10}\\
+        P(yellow|b_1) &= \frac{h(yellow,b_1)}{h(b1)} &= \frac{2}{5+3+2} &= \frac{2}{10} &= \frac{1}{5}\\
+        \end{align*}
+    \item $p(b_1) = 0.2, p(b_2) = 0.3, p(b_3) = 0.5$\\
+        \\
+        \begin{align*}
+        P(red) &= P(red|b_1)P(b_1) + P(red|b_2)P(b_2)+ P(red|b_3)P(b_3)\\
+               &= 0.2\frac{5}{5+3+2} + 0.3\frac{1}{1+2+3} + 0.5\frac{4}{4+2+5}\\
+            &= \frac{73}{220} \\&= 0.3319\\
+        P(yellow) &= P(yellow|b_1)P(b_1) + P(yellow|b_2)P(b_2)+
+            P(yellow|b_3)P(b_3)\\
+            &= 0.2\frac{3}{5+3+2} + 0.3\frac{2}{1+2+3} + 0.5\frac{2}{4+2+5}\\
+            &= \frac{69}{275} \\&= 0.251\\
+        P(yellow) &= P(yellow|b_1)P(b_1) + P(yellow|b_2)P(b_2)+
+        P(green)\\ &= P(green|b_1)P(b_1) + P(green|b_2)P(b_2)+
+            P(green|b_3)P(b_3)\\
+            &= 0.2\frac{2}{5+3+2} + 0.3\frac{3}{1+2+3} + 0.5\frac{5}{4+2+5}\\
+            &= \frac{459}{1100}\\ &= 0.417\\
+        \end{align*}
+\end{enumerate}
+
+\section{Exercise \textit{(Bayes Classifier (8p))}}
+\begin{enumerate}
+    \item
+    \item
+    \item
+\end{enumerate}
+
+\section{Exercise \textit{(Reinforcement (10p))}}
+\begin{enumerate}
+    \item
+    \item
+\end{enumerate}
+
+\section{Exercise \textit{(LDA (6p))}}
+\begin{enumerate}
+    \item
+    \item
+    \item
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
