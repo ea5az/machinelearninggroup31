@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
 from sklearn import svm
-import sklearn.naive_bayes as bayes
 
 # load matlab array
 x_train = np.array(loadmat("data_train", matlab_compatible=True)['x'])
